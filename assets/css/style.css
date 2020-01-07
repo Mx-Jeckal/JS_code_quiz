@@ -48,6 +48,7 @@
     text-align: center;
     color: burlywood;
     border: 3px solid burlywood;
+    width: fit-content;
 }
 
 .cardBtn:hover {
@@ -57,5 +58,20 @@
 
 .game {
     margin-top: 120px;
+    width: fit-content;
+}
+
+.qtext {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.list {
+    background-color: rgb(73, 73, 180);
+    margin: 3px;
+    border-radius: 10px;
+    text-align: center;
+    color: burlywood;
+    border: 3px solid burlywood;
     width: fit-content;
 }

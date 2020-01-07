@@ -7,10 +7,6 @@ var navCard = document.createElement("card");
 var navCard1 = document.createElement("card");
 var navCard2 = document.createElement("card");
 
-
-
-
-
 navEl.setAttribute("class", "tab shadow-lg col-sm-12")
 bgImg.appendChild(navEl)
 
@@ -31,19 +27,99 @@ navCard1.setAttribute('class', 'card-body cardBtn')
 navBtns.appendChild(navCard1)
 navCard1.innerHTML = "HiScores"
 
-navCard2.setAttribute('class', 'card-body cardBtn')
-navBtns.appendChild(navCard2)
-navCard2.innerHTML = "Button"
-
-
-
+// navCard2.setAttribute('class', 'card-body cardBtn')
+// navBtns.appendChild(navCard2)
+// navCard2.innerHTML = "Button"
 
 navCard.addEventListener('click', () => {
-    window.location.href = "https//:www.google.com"
-    console.log('btn clicked')
-})
+    window.location.href = "www.google.com";
+    console.log('btn clicked');
+});
 
+navCard1.addEventListener('click', () => {
+    window.location.href = "./hiScores.html";
+    console.log('btn clicked');
+});
+
+
+
+
+import { questions } from './questions.js';
+
+// button to start a new quiz
 var newGame = document.createElement('div')
 newGame.setAttribute('class', "cardBtn game card-body")
-newGame.innerHTML = "Start&nbsp;New&nbsp;Game"
+newGame.innerHTML = "Start&nbsp;New&nbsp;Quiz"
 quizDiv.appendChild(newGame)
+var i = 0
+var quizScore = 0
+
+function btnDoc() {
+    if (i < questions[i].title.length) {
+        i++
+
+        var qButton = document.createElement('button')
+        var qtext = document.createElement('div')
+        qtext.setAttribute('class', "card-body qtext")
+        qButton.setAttribute('class', "cardBtn card-body")
+        qButton.innerHTML = "Submit&nbsp;Answer"
+        qtext.innerHTML = questions[i].title
+
+        quizDiv.appendChild(qtext)
+
+        var qlist = document.createElement('div')
+        quizDiv.appendChild(qlist)
+        var y;
+        for (y = 0; y < questions[i].choices.length; y++) {
+
+            var qChoices = document.createElement('div')
+            qChoices.setAttribute('class', 'list btn cardBtn')
+            qChoices.setAttribute('data-choice', questions[i].choices[y])
+            qChoices.innerHTML = questions[i].choices[y]
+            qlist.appendChild(qChoices)
+
+
+        }
+        $('.list').on('click', () => {
+            var qAnswer = $(this).attr("data-choice")
+                // var qAnswer = (qChoices.getAttribute('data-choice', index))
+                // var qAnswer = document.getElementById(y).getAttribute('data-choice')
+            console.log(qChoices.dataset)
+            localStorage.setItem('answer', qAnswer)
+        })
+
+
+        quizDiv.appendChild(qButton)
+
+
+        qButton.addEventListener('click', () => {
+            if (localStorage.getItem('answer') === questions[i].answer) {
+                console.log("right answer: " + questions[i].answer)
+                localStorage.removeItem('answer')
+                quizScore++
+            } else {
+                // wrong answer
+                console.log('wrong answer. The correct answer was: ' + questions[i].answer)
+                localStorage.removeItem('answer')
+                $('.list').attr("style", "display: none")
+                qButton.setAttribute("style", "display: none")
+                qtext.setAttribute("style", "display: none")
+                btnDoc()
+            }
+        })
+    }
+}
+
+
+
+newGame.addEventListener('click', () => {
+    newGame.setAttribute("style", "display: none")
+    console.log('a new game has started');
+    btnDoc()
+})
+
+
+
+// when this btn is clicked i want it to display the 1st question, upon answering i want the corrct or incorrect displayed and then move on to the next question.
+
+// I want a counter of the current and remaining questions and a  countdown timer
