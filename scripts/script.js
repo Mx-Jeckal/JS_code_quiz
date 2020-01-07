@@ -32,7 +32,7 @@ navCard1.innerHTML = "HiScores"
 // navCard2.innerHTML = "Button"
 
 navCard.addEventListener('click', () => {
-    window.location.href = "www.google.com";
+    window.location.href = "";
     console.log('btn clicked');
 });
 
@@ -53,7 +53,36 @@ newGame.innerHTML = "Start&nbsp;New&nbsp;Quiz"
 quizDiv.appendChild(newGame)
 var i = 0
 var quizScore = 0
+    //timer element and attributes
+var qTimer = $("<div>")
+qTimer.attr('class', 'timer cardBtn')
+qTimer.text("0")
+$(bgImg).append(qTimer)
+var timeleft = 75
+    //Countdown timer
+function timer() {;
+    var downloadTimer = setInterval(function() {
 
+        $(".timer").text(timeleft)
+        timeleft -= 1;
+        if (timeleft <= 0) {
+            clearInterval(downloadTimer);
+            alert('Game over')
+            newGame.setAttribute("style", "display: visable")
+            $('.list').attr("style", "display: none")
+            qButton.setAttribute("style", "display: none")
+            qtext.setAttribute("style", "display: none")
+            addScore()
+        }
+    }, 1000);
+}
+
+function addScore() {
+    var initials = prompt("Enter your initials: ")
+    localStorage.setItem("initials", initials)
+    localStorage.setItem('score', (qTimer.value))
+}
+//generate question and multiple choices
 function btnDoc() {
     if (i < questions[i].title.length) {
         i++
@@ -69,24 +98,24 @@ function btnDoc() {
 
         var qlist = document.createElement('div')
         quizDiv.appendChild(qlist)
+
         var y;
         for (y = 0; y < questions[i].choices.length; y++) {
-
             var qChoices = document.createElement('div')
             qChoices.setAttribute('class', 'list btn cardBtn')
             qChoices.setAttribute('data-choice', questions[i].choices[y])
             qChoices.innerHTML = questions[i].choices[y]
             qlist.appendChild(qChoices)
 
+            $('.list').on('click', () => {
+                var qAnswer = $(".list").attr("[data-choice]")
+                    // var qAnswer = (qChoices.getAttribute = 'data-choice')
+                    // var qAnswer = document.getElementById(y).getAttribute('data-choice')
+                console.log(qChoices.dataset)
+                localStorage.setItem('answer', qAnswer)
+            })
 
         }
-        $('.list').on('click', () => {
-            var qAnswer = $(this).attr("data-choice")
-                // var qAnswer = (qChoices.getAttribute('data-choice', index))
-                // var qAnswer = document.getElementById(y).getAttribute('data-choice')
-            console.log(qChoices.dataset)
-            localStorage.setItem('answer', qAnswer)
-        })
 
 
         quizDiv.appendChild(qButton)
@@ -97,10 +126,13 @@ function btnDoc() {
                 console.log("right answer: " + questions[i].answer)
                 localStorage.removeItem('answer')
                 quizScore++
+                timeleft = timeleft + 3
+                btnDoc()
             } else {
                 // wrong answer
                 console.log('wrong answer. The correct answer was: ' + questions[i].answer)
                 localStorage.removeItem('answer')
+                timeleft = (timeleft - 5)
                 $('.list').attr("style", "display: none")
                 qButton.setAttribute("style", "display: none")
                 qtext.setAttribute("style", "display: none")
@@ -115,6 +147,7 @@ function btnDoc() {
 newGame.addEventListener('click', () => {
     newGame.setAttribute("style", "display: none")
     console.log('a new game has started');
+    timer()
     btnDoc()
 })
 
