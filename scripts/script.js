@@ -52,13 +52,12 @@ newGame.setAttribute('class', "cardBtn game card-body")
 newGame.innerHTML = "Start&nbsp;New&nbsp;Quiz"
 quizDiv.appendChild(newGame)
 var i = 0
-var quizScore = 0
     //timer element and attributes
 var qTimer = $("<div>")
 qTimer.attr('class', 'timer cardBtn')
 qTimer.text("0")
 $(bgImg).append(qTimer)
-var timeleft = 75
+var timeleft = 30
     //Countdown timer
 function timer() {;
     var downloadTimer = setInterval(function() {
@@ -68,19 +67,21 @@ function timer() {;
         if (timeleft <= 0) {
             clearInterval(downloadTimer);
             alert('Game over')
+            addScore()
             newGame.setAttribute("style", "display: visable")
             $('.list').attr("style", "display: none")
             qButton.setAttribute("style", "display: none")
             qtext.setAttribute("style", "display: none")
-            addScore()
+
         }
     }, 1000);
 }
 
 function addScore() {
     var initials = prompt("Enter your initials: ")
+    initials
     localStorage.setItem("initials", initials)
-    localStorage.setItem('score', (qTimer.value))
+    localStorage.setItem('score', $(".timer").text())
 }
 //generate question and multiple choices
 function btnDoc() {
@@ -107,11 +108,11 @@ function btnDoc() {
             qChoices.innerHTML = questions[i].choices[y]
             qlist.appendChild(qChoices)
 
-            $('.list').on('click', () => {
-                var qAnswer = $(".list").attr("[data-choice]")
+            $('.list').on('click', function() {
+                var qAnswer = ($(this).attr("data-choice"))
                     // var qAnswer = (qChoices.getAttribute = 'data-choice')
                     // var qAnswer = document.getElementById(y).getAttribute('data-choice')
-                console.log(qChoices.dataset)
+                console.log(qAnswer)
                 localStorage.setItem('answer', qAnswer)
             })
 
@@ -121,12 +122,14 @@ function btnDoc() {
         quizDiv.appendChild(qButton)
 
 
-        qButton.addEventListener('click', () => {
+        qButton.addEventListener('click', function() {
             if (localStorage.getItem('answer') === questions[i].answer) {
                 console.log("right answer: " + questions[i].answer)
                 localStorage.removeItem('answer')
-                quizScore++
                 timeleft = timeleft + 3
+                $('.list').attr("style", "display: none")
+                qButton.setAttribute("style", "display: none")
+                qtext.setAttribute("style", "display: none")
                 btnDoc()
             } else {
                 // wrong answer
@@ -144,13 +147,12 @@ function btnDoc() {
 
 
 
-newGame.addEventListener('click', () => {
+newGame.addEventListener('click', function() {
     newGame.setAttribute("style", "display: none")
     console.log('a new game has started');
     timer()
     btnDoc()
 })
-
 
 
 // when this btn is clicked i want it to display the 1st question, upon answering i want the corrct or incorrect displayed and then move on to the next question.
