@@ -10,15 +10,17 @@
      },
      {
          title: "Inside which HTML element do we put the JavaScript?",
-         choices: ["<scripting>", "<JavaScript>", "<js>", "<script>"],
-         answer: "<script>"
-     }, {
+         choices: ["&ltscripting&gt", "&ltJavaScript&gt", "&ltjs&gt", "&ltscript&gt"],
+         answer: "&ltscript&gt"
+     },
+     {
          title: 'What is the correct JavaScript syntax to change the content of the HTML element below?        <p id="demo">This is a demonstration.</p>',
          choices: ['#demo.innerHTML="hello world";', 'document.getElement("p").innerHTML = "hello world";', 'document.getElementByID("demo").innerHTML ="hello world";', 'document.getElementByName("p").innerHTML = "hello world";'],
          answer: 'document.getElementByID("demo").innerHTML ="hello world";'
-     }, {
+     },
+     {
          title: 'What is the correct syntax for referring to an external script called "xxx.js"?',
-         choices: ['<script src="xxx.js">', '<script name="xxx.js">', '<script href="xxx.js">', '<script rel="xxx.js">'],
-         answer: '<script src="xxx.js">'
+         choices: ['&ltscript src="xxx.js"&gt', '&ltscript name="xxx.js"&gt', '&ltscript href="xxx.js"&gt', '&ltscript rel="xxx.js"&gt'],
+         answer: '&ltscript src="xxx.js"&gt'
      }
  ];
